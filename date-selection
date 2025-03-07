@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Custom Date Picker</title>
+</head>
+<body>
+    <h2>Select a Date (Not Today, No Weekends)</h2>
+    <form id="dateForm">
+        <label for="datepicker">Choose a date:</label>
+        <input type="date" id="datepicker" name="selectedDate" min="" required>
+        <button type="submit">Submit</button>
+    </form>
+
+    <script>
+        // Disable today and weekends
+        const today = new Date().toISOString().split('T')[0];  // Get today's date in YYYY-MM-DD format
+        document.getElementById('datepicker').setAttribute('min', today);
+
+        // Disable weekends
+        document.getElementById('datepicker').addEventListener('input', function () {
+            const selectedDate = new Date(this.value);
+            const day = selectedDate.getUTCDay();
+            if (day === 0 || day === 6) {  // 0 is Sunday, 6 is Saturday
+                alert("You cannot select weekends. Please choose a weekday.");
+                this.value = '';  // Reset the date picker
+            }
+        });
+
+        // Handle form submission and pass the date
+        document.getElementById('dateForm').addEventListener('submit', function (event) {
+            event.preventDefault();
+            const selectedDate = document.getElementById('datepicker').value;
+            if (selectedDate) {
+                // Redirect or pass the date to your Tally form (this would be your logic)
+                window.location.href = "https://your-tally-form-link?selectedDate=" + selectedDate;
+            }
+        });
+    </script>
+</body>
+</html>
