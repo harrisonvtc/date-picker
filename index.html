@@ -10,6 +10,10 @@
     <form id="dateForm">
         <label for="datepicker">Choose a date:</label>
         <input type="date" id="datepicker" name="selectedDate" min="" required>
+
+        <!-- Hidden field to store the selected date -->
+        <input type="hidden" id="hiddenDate" name="Hidden Date">
+
         <button type="submit">Submit</button>
     </form>
 
@@ -25,6 +29,9 @@
             if (day === 0 || day === 6) {  // 0 is Sunday, 6 is Saturday
                 alert("You cannot select weekends. Please choose a weekday.");
                 this.value = '';  // Reset the date picker
+            } else {
+                // If valid, set the hidden field with the selected date
+                document.getElementById('hiddenDate').value = this.value;
             }
         });
 
@@ -32,11 +39,14 @@
         document.getElementById('dateForm').addEventListener('submit', function (event) {
             event.preventDefault();
             const selectedDate = document.getElementById('datepicker').value;
-            if (selectedDate) {
+            const hiddenDate = document.getElementById('hiddenDate').value;
+
+            if (selectedDate && hiddenDate) {
                 // Redirect or pass the date to your Tally form (this would be your logic)
-                window.location.href = "https://your-tally-form-link?selectedDate=" + selectedDate;
+                window.location.href = "https://your-tally-form-link?selectedDate=" + selectedDate + "&hiddenDate=" + hiddenDate;
             }
         });
     </script>
 </body>
 </html>
+
